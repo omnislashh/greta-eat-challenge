@@ -1,6 +1,7 @@
 <template>
   <h3>Découvrez tous nos plats incluant l'ingrédient</h3>
   {{this.slugIngredient1}}
+  <p>{{this.IngredientsDisplay}}</p>
   <Footer />
 </template>
 
@@ -23,15 +24,15 @@ export default {
     }
   },
   mounted () {
-    fetch(`www.themealdb.com/api/json/v1/1/list.php?i=${this.slugIngredient1}`)
+    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${this.slugIngredient1}`)
       .then(function (response) {
         return response.json()
       })
       .then(newResult => {
-        console.log('newResult :', newResult)
-        // this.IngredientsDisplay = newResult.meals
-        // console.log('this.IngredientsDisplay :', this.MealDisplay[0].strMealThumb)
-        // return this.MealDisplay
+        console.log('newResult :', newResult.meals)
+        this.IngredientsDisplay = newResult.meals
+        console.log('this.IngredientsDisplay :', this.IngredientsDisplay[0].strMealThumb)
+        return this.IngredientsDisplay
       })
       .catch(function (err) {
         console.warn(err)

@@ -29,7 +29,17 @@
     <button @click="displayLettre('Z')" :to="{ name: 'Lettre', params: {slugLettre: lettreActive}}"><strong>Z</strong></button> /
     <p>{{this.lettreActive}}</p>
     <Lettre v-if="showingLettre == true"/>
-    <p>{{this.renderingLetterDisplay}}</p>
+    <div>
+      <div v-for="mySingleObject in renderingLetterDisplay" :key="mySingleObject.id">
+        <router-link :to="{ name: 'Meal', params: {
+          slugSingle: mySingleObject.idMeal,
+          }
+        }"><strong>{{ mySingleObject.strMeal }}</strong>
+        <div class="img-container">
+          <img v-bind:src="mySingleObject.strMealThumb" alt="">
+        </div></router-link>
+      </div>
+    </div>
     <Footer />
   </div>
 </template>
@@ -63,8 +73,8 @@ export default {
           return response.json()
         })
         .then(newResult => {
-          console.log('response :', newResult)
-          this.renderingLetterDisplay = newResult
+          console.log('response :', newResult.meals)
+          this.renderingLetterDisplay = newResult.meals
           console.log('response :', this.renderingLetterDisplay)
           return this.renderingLetterDisplay
         })
